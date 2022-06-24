@@ -15,12 +15,9 @@ int main()
     third->value = 2;
 	third->nexadd = NULL;
 
-	reverselist(head);
-
+	// reverselist(head);
+	insert_middle(&second, 5);
 	print(head);
-	/* print(head);
-    reverselist(head);
-	print(head); */
 	
     deleteobj(head);
     system("pause");

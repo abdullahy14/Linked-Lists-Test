@@ -82,5 +82,5 @@ node* reverselist(node* head){
 
     head->nexadd->nexadd = head;
     head->nexadd = NULL;
-    return temp;
+    return head;
 }

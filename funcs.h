@@ -5,7 +5,7 @@ using namespace std;
 struct node {
     public:
 	int value;
-	node* nexadd;
+	node* nxtadd;
 };
 
 
@@ -16,3 +16,4 @@ void insert_back(node** , int );
 void insert_middle(node** , int );
 void delete_node(node **);
 node* reverselist(node*);
+void nxtptr();

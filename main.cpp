@@ -9,11 +9,11 @@ int main()
     node* third = new node;
 
 	head->value = 0;
-	head->nexadd = second;
+	head->nxtadd = second;
 	second->value = 1;
-	second->nexadd = third;
+	second->nxtadd = third;
     third->value = 2;
-	third->nexadd = NULL;
+	third->nxtadd = NULL;
 
 	// reverselist(head);
 	insert_middle(&second, 5);
@@ -24,4 +24,3 @@ int main()
 	return false;
     
 }
-

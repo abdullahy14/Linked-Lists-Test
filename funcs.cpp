@@ -84,3 +84,21 @@ node* reverselist(node* head){
     head->nxtadd = NULL;
     return temp;
 }
+
+node* merge_two_sorted_lists(node* x, node* y){
+    //base case
+    if(x == NULL)
+    return y;
+    if(y == NULL)
+    return x;
+    
+    //reursive call
+    if(x->value < y->value){
+        x->nxtadd = merge_two_sorted_lists(x->nxtadd, y);
+        return x;
+    }
+    else{
+        y->nxtadd = merge_two_sorted_lists(x, y->nxtadd);
+        return y;
+    }
+}

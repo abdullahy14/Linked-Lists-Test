@@ -16,4 +16,4 @@ void insert_back(node** , int );
 void insert_middle(node** , int );
 void delete_node(node **);
 node* reverselist(node*);
-void nxtptr();
+node* merge_two_sorted_lists(node*, node*);

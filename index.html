@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nuvic Spatial Command Center</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #131b2f;
+      --panel-2: #1a2540;
+      --line: #2b3b62;
+      --text: #e8ecf7;
+      --muted: #9aa7c7;
+      --accent: #71d9ff;
+      --accent-2: #8cffc4;
+      --danger: #ff6f91;
+      --ok: #70e59a;
+      --warn: #ffcb6b;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top right, #1f335f 0, #0b1020 55%);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    header {
+      padding: 2.5rem 1rem 2rem;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(113,217,255,.08), transparent);
+    }
+
+    .wrap { max-width: 1150px; margin: 0 auto; }
+
+    h1 {
+      margin: 0;
+      letter-spacing: 0.02em;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      text-transform: uppercase;
+    }
+
+    .sub {
+      margin-top: .6rem;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    main { padding: 1rem; }
+
+    section.phase {
+      margin: 1.1rem auto;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.0));
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.1rem;
+      max-width: 1150px;
+    }
+
+    h2 { margin-top: 0; font-size: 1.35rem; }
+    h3 { margin: .2rem 0 .6rem; font-size: 1rem; color: var(--accent-2); }
+    p, li, label, td, th, input, select, button { font-size: 0.95rem; }
+    .muted { color: var(--muted); }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: .9rem;
+    }
+
+    input, select, button, textarea {
+      width: 100%;
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: .55rem .65rem;
+      margin-top: .3rem;
+    }
+
+    textarea { min-height: 85px; resize: vertical; }
+
+    button {
+      cursor: pointer;
+      font-weight: 700;
+      border-color: #3c4f82;
+      transition: .2s ease;
+    }
+    button:hover { filter: brightness(1.1); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: .35rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: .45rem;
+      text-align: left;
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: .78rem;
+      padding: .18rem .42rem;
+      border-radius: 999px;
+      font-weight: 700;
+      margin-left: .3rem;
+    }
+
+    .pass { background: rgba(112,229,154,.16); color: var(--ok); }
+    .fail { background: rgba(255,111,145,.16); color: var(--danger); }
+
+    .swatch {
+      height: 48px;
+      border-radius: 8px;
+      border: 1px solid #0006;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      text-shadow: 0 1px 2px rgba(0,0,0,.4);
+    }
+
+    .checklist li { margin-bottom: .45rem; }
+
+    .download {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: .8rem;
+    }
+
+    footer {
+      max-width: 1150px;
+      margin: 1.3rem auto 2rem;
+      padding: 0 1rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>🏗️ The Nuvic Spatial Command Center</h1>
+      <div class="sub">The logical engine for room execution. No "inspiration." Just logistics.</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="phase">
+      <h2>Phase 1: The Diagnostic Layer <span class="muted">(The Input)</span></h2>
+      <div class="grid">
+        <div class="card">
+          <h3>The Constraint Matrix</h3>
+          <label>Fixed elements (outlets, radiator, door swing)
+            <textarea placeholder="Example: Outlet NE wall at 32in; radiator under south window; door swings inward, clockwise..."></textarea>
+          </label>
+          <label>Traffic flow map notes (dead zones vs high-velocity paths)
+            <textarea placeholder="Example: Dead zone behind recliner; high-velocity route from hall to kitchen..."></textarea>
+          </label>
+        </div>
+        <div class="card">
+          <h3>Light Audit</h3>
+          <label>Primary orientation
+            <select id="lightOrientation">
+              <option value="north">North-facing (blue / cold)</option>
+              <option value="south">South-facing (yellow / warm)</option>
+            </select>
+          </label>
+          <p id="lightResult" class="muted"></p>
+        </div>
+        <div class="card">
+          <h3>The Lifestyle Filter (10-Point Friction Test)</h3>
+          <div id="lifestyleChecks"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="phase">
+      <h2>Phase 2: The Definitive Layer <span class="muted">(The Rules)</span></h2>
+      <div class="grid">
+        <div class="card">
+          <h3>The 3-Tone Color Code</h3>
+          <label>Base color
+            <input id="baseColor" type="color" value="#5b7cfa" />
+          </label>
+          <button id="calcTones">Compute 60-30-10 palette</button>
+          <div class="grid" style="margin-top:.7rem;">
+            <div>
+              <div id="swatch60" class="swatch"></div>
+              <small>60% Base Tone</small>
+            </div>
+            <div>
+              <div id="swatch30" class="swatch"></div>
+              <small>30% Secondary Tone</small>
+            </div>
+            <div>
+              <div id="swatch10" class="swatch"></div>
+              <small>10% Accent Tone</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>The Material Vetting Sheet</h3>
+          <table>
+            <thead><tr><th>Material</th><th>Status</th><th>Rule Trigger</th></tr></thead>
+            <tbody id="materialRows"></tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h3>The Style Anchor (Logic Board)</h3>
+          <p class="muted">Allowed textures (5): Brushed steel, matte oak, linen weave, micro-cement, ribbed glass.<br/>Allowed shapes (3): Rectangle, soft radius, cylinder.</p>
+          <p><strong>System Rule:</strong> Any texture/shape outside this board = <span class="pill fail">System Error</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="phase">
+      <h2>Phase 3: The Procurement Engine <span class="muted">(The Math)</span></h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Automated Budgeter</h3>
+          <label>Total budget ceiling ($)
+            <input id="budgetTotal" type="number" min="0" value="5000" />
+          </label>
+          <button id="calcBudget">Auto-allocate</button>
+          <table id="budgetTable"></table>
+        </div>
+
+        <div class="card">
+          <h3>Dimension Guard</h3>
+          <label>Room width (ft)<input id="roomW" type="number" value="12" min="1" /></label>
+          <label>Room length (ft)<input id="roomL" type="number" value="16" min="1" /></label>
+          <button id="calcDims">Compute safe limits</button>
+          <p id="dimOutput" class="muted"></p>
+        </div>
+
+        <div class="card">
+          <h3>Lead-Time Tracker (Trigger Order)</h3>
+          <label>Rug lead time (weeks)<input id="leadRug" type="number" value="8" min="0" /></label>
+          <label>Sofa lead time (weeks)<input id="leadSofa" type="number" value="2" min="0" /></label>
+          <label>Lighting lead time (weeks)<input id="leadLight" type="number" value="3" min="0" /></label>
+          <button id="calcLead">Generate trigger sequence</button>
+          <ol id="leadOut" class="muted"></ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="phase">
+      <h2>Phase 4: The Execution Stack <span class="muted">(The Sequence)</span></h2>
+      <div class="card">
+        <ol>
+          <li><strong>Level 0: Prep</strong> — Painting, flooring, electrical.</li>
+          <li><strong>Level 1: The Anchors</strong> — Sofa, bed, dining table.</li>
+          <li><strong>Level 2: The Secondary</strong> — Side tables, shelving.</li>
+          <li><strong>Level 3: The Soft Layer</strong> — Rugs, curtains (only after Level 1 is measured in person).</li>
+          <li><strong>Level 4: The Tech/Light</strong> — Lamps, smart home.</li>
+          <li><strong>Level 5: The Polish</strong> — Art, plants.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="phase">
+      <h2>Phase 5: The Anti-Regret Audit <span class="muted">(Final Check)</span></h2>
+      <div class="card">
+        <ul class="checklist">
+          <li><label><input type="checkbox" /> Does this meet the Scale Requirement from Phase 3?</label></li>
+          <li><label><input type="checkbox" /> Does the material pass the Lifestyle Filter from Phase 1?</label></li>
+          <li><label><input type="checkbox" /> Is there a hidden cost (professional assembly/custom delivery)?</label></li>
+          <li><label><input type="checkbox" /> Does this solve a Diagnostic Problem, not just look pretty?</label></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="phase">
+      <h2>🛠️ Delivery Format</h2>
+      <div class="download">
+        <div class="card"><h3>1) Master Manual (PDF)</h3><p class="muted">Defines the "why" and logic architecture for every phase.</p></div>
+        <div class="card"><h3>2) Command Center (Notion/Excel)</h3><p class="muted">Includes calculators, guards, and timeline tracker.</p></div>
+        <div class="card"><h3>3) Cheat Sheets (PNG)</h3><p class="muted">Camera-roll ready spacing and dimension references.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>System mode enabled: optimize constraints, reduce regret, execute by sequence.</footer>
+
+  <script>
+    const frictionTests = [
+      'Do you eat on the sofa?',
+      'Do you work from this room daily?',
+      'Do you host 4+ people weekly?',
+      'Does a vacuum robot need to pass under the bed/sofa?',
+      'Do you have a cat that claws fabrics?',
+      'Do you have a dog that sheds heavily?',
+      'Are there children under age 8?',
+      'Do you require blackout conditions?',
+      'Do you need hidden cable management?',
+      'Do you need closed storage for visual calm?'
+    ];
+
+    const lifestyleChecks = document.getElementById('lifestyleChecks');
+    frictionTests.forEach((q, i) => {
+      const row = document.createElement('label');
+      row.innerHTML = `<input class="life" type="checkbox" data-index="${i}" /> ${q}`;
+      row.style.display = 'block';
+      row.style.marginBottom = '.35rem';
+      lifestyleChecks.appendChild(row);
+    });
+
+    const materials = [
+      { name: 'Velvet', failIf: [4], reason: 'Cat claws catch pile fabrics' },
+      { name: 'Bouclé', failIf: [4, 6], reason: 'Snag risk + heavy cleaning cycle' },
+      { name: 'Performance Linen', failIf: [], reason: 'High pass baseline' },
+      { name: 'Top-grain Leather', failIf: [5], reason: 'Dog nails + heat sensitivity' },
+      { name: 'Microfiber', failIf: [], reason: 'Durable for high friction zones' }
+    ];
+
+    function renderMaterialSheet() {
+      const active = [...document.querySelectorAll('.life:checked')].map(el => Number(el.dataset.index));
+      const body = document.getElementById('materialRows');
+      body.innerHTML = '';
+      materials.forEach(m => {
+        const fail = m.failIf.some(i => active.includes(i));
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${m.name}</td>
+          <td><span class="pill ${fail ? 'fail' : 'pass'}">${fail ? 'FAIL' : 'PASS'}</span></td>
+          <td>${fail ? m.reason : 'No friction conflict detected'}</td>`;
+        body.appendChild(tr);
+      });
+    }
+    document.addEventListener('change', (e) => {
+      if (e.target.classList.contains('life') || e.target.id === 'lightOrientation') {
+        renderMaterialSheet();
+        updateLightAudit();
+      }
+    });
+
+    function hexToRgb(hex) {
+      const x = hex.replace('#', '');
+      const bigint = parseInt(x, 16);
+      return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
+    }
+
+    function rgbToHex(r, g, b) {
+      return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
+    }
+
+    function mix(c1, c2, p) {
+      return {
+        r: Math.round(c1.r + (c2.r - c1.r) * p),
+        g: Math.round(c1.g + (c2.g - c1.g) * p),
+        b: Math.round(c1.b + (c2.b - c1.b) * p)
+      };
+    }
+
+    function updatePalette() {
+      const base = hexToRgb(document.getElementById('baseColor').value);
+      const secondary = mix(base, { r: 245, g: 245, b: 245 }, 0.35);
+      const accent = mix(base, { r: 16, g: 24, b: 44 }, 0.3);
+
+      const c60 = rgbToHex(base.r, base.g, base.b);
+      const c30 = rgbToHex(secondary.r, secondary.g, secondary.b);
+      const c10 = rgbToHex(accent.r, accent.g, accent.b);
+
+      [['swatch60', c60], ['swatch30', c30], ['swatch10', c10]].forEach(([id, c]) => {
+        const s = document.getElementById(id);
+        s.style.background = c;
+        s.textContent = c.toUpperCase();
+      });
+    }
+
+    function updateLightAudit() {
+      const v = document.getElementById('lightOrientation').value;
+      const el = document.getElementById('lightResult');
+      el.textContent = v === 'north'
+        ? 'North light = cooler cast. Compensate with warmer paint undertones and avoid sterile gray bias.'
+        : 'South light = warmer cast. Keep pigments balanced to avoid yellow oversaturation at peak daylight.';
+    }
+
+    function updateBudget() {
+      const total = Number(document.getElementById('budgetTotal').value) || 0;
+      const splits = [
+        ['Core Furniture', .40],
+        ['Lighting', .20],
+        ['Textiles', .15],
+        ['Art', .10],
+        ['Buffer/Tax/Shipping', .15]
+      ];
+      const tbl = document.getElementById('budgetTable');
+      tbl.innerHTML = '<tr><th>Category</th><th>Allocation</th></tr>' +
+        splits.map(([name, pct]) => `<tr><td>${name}</td><td>$${(total * pct).toFixed(2)}</td></tr>`).join('');
+    }
+
+    function updateDimensions() {
+      const w = Number(document.getElementById('roomW').value);
+      const l = Number(document.getElementById('roomL').value);
+      const sofaMax = Math.floor((Math.min(w, l) * 12) * 0.62);
+      const rugMinW = Math.max(5, Math.floor(w * 0.66));
+      const rugMinL = Math.max(8, Math.floor(l * 0.66));
+      document.getElementById('dimOutput').textContent = `Max sofa length: ${sofaMax} in | Minimum rug size: ${rugMinW} x ${rugMinL} ft`;
+    }
+
+    function updateLeadTime() {
+      const entries = [
+        ['Rug', Number(document.getElementById('leadRug').value)],
+        ['Sofa', Number(document.getElementById('leadSofa').value)],
+        ['Lighting', Number(document.getElementById('leadLight').value)]
+      ].sort((a, b) => b[1] - a[1]);
+
+      const out = document.getElementById('leadOut');
+      out.innerHTML = entries.map(([name, w], i) => `<li>Trigger #${i + 1}: ${name} (${w} week lead)</li>`).join('');
+    }
+
+    document.getElementById('calcTones').onclick = updatePalette;
+    document.getElementById('calcBudget').onclick = updateBudget;
+    document.getElementById('calcDims').onclick = updateDimensions;
+    document.getElementById('calcLead').onclick = updateLeadTime;
+
+    renderMaterialSheet();
+    updatePalette();
+    updateLightAudit();
+    updateBudget();
+    updateDimensions();
+    updateLeadTime();
+  </script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nuvic Spatial Command Center</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">🏗️ Product Title</p>
+    <h1>The Nuvic Spatial Command Center</h1>
+    <p class="subheadline">The logical engine for room execution. No "inspiration." Just logistics.</p>
+  </header>
+
+  <main>
+    <section class="phase" id="phase1">
+      <h2>Phase 1: The Diagnostic Layer <span>(The Input)</span></h2>
+      <p>Before buying a single candle, audit the hardware.</p>
+
+      <div class="card">
+        <h3>The Constraint Matrix</h3>
+        <div class="grid two">
+          <label>Outlets (locations)
+            <textarea id="outlets" placeholder="North wall near desk..."></textarea>
+          </label>
+          <label>Radiator (location)
+            <input id="radiator" type="text" placeholder="Under west window" />
+          </label>
+          <label>Door Swing Direction
+            <select id="doorSwing">
+              <option>Left in-swing</option>
+              <option>Right in-swing</option>
+              <option>Left out-swing</option>
+              <option>Right out-swing</option>
+            </select>
+          </label>
+          <label>Other Fixed Elements
+            <textarea id="fixedElements" placeholder="Columns, vents, built-ins"></textarea>
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Light Audit</h3>
+        <label>Window Orientation
+          <select id="lightOrientation">
+            <option value="north">North-facing (blue/cold)</option>
+            <option value="south">South-facing (yellow/warm)</option>
+          </select>
+        </label>
+        <p id="lightResult" class="result"></p>
+      </div>
+
+      <div class="card">
+        <h3>Traffic Flow Map</h3>
+        <div class="grid three">
+          <label>Entry Path Width (in)
+            <input id="entryPath" type="number" value="34" min="20" />
+          </label>
+          <label>High-velocity Paths
+            <input id="highVelocity" type="number" value="2" min="0" />
+          </label>
+          <label>Dead Zones
+            <input id="deadZones" type="number" value="1" min="0" />
+          </label>
+        </div>
+        <p id="flowResult" class="result"></p>
+      </div>
+
+      <div class="card">
+        <h3>The Lifestyle Filter (10-Point Friction Test)</h3>
+        <div id="lifestyleChecklist" class="grid two checklist"></div>
+        <p id="lifestyleScore" class="result"></p>
+      </div>
+    </section>
+
+    <section class="phase" id="phase2">
+      <h2>Phase 2: The Definitive Layer <span>(The Rules)</span></h2>
+
+      <div class="card">
+        <h3>The 3-Tone Color Code</h3>
+        <div class="grid three">
+          <label>Base Color (60%)
+            <input type="color" id="baseColor" value="#6e7f80" />
+          </label>
+          <label>Direction
+            <select id="toneDirection">
+              <option value="warm">Warm companions</option>
+              <option value="cool">Cool companions</option>
+            </select>
+          </label>
+          <button id="calcTones" class="btn">Generate 60-30-10</button>
+        </div>
+        <div id="toneSwatches" class="swatches"></div>
+      </div>
+
+      <div class="card">
+        <h3>The Material Vetting Sheet</h3>
+        <table>
+          <thead>
+            <tr><th>Material</th><th>Status</th><th>Rule Trigger</th></tr>
+          </thead>
+          <tbody id="materialTable"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>The Style Anchor (Logic Board)</h3>
+        <p>List exactly <strong>5 textures</strong> and <strong>3 shapes</strong>. Anything else is a system error.</p>
+        <div class="grid two">
+          <label>Textures (comma-separated)
+            <input id="textures" type="text" placeholder="linen, brushed steel, matte oak..." />
+          </label>
+          <label>Shapes (comma-separated)
+            <input id="shapes" type="text" placeholder="rectangle, arch, cylinder" />
+          </label>
+        </div>
+        <label>Test Candidate Item Tokens (comma-separated)
+          <input id="candidateTokens" type="text" placeholder="boucle, oval, gloss brass" />
+        </label>
+        <button id="validateStyle" class="btn">Run System Check</button>
+        <p id="styleResult" class="result"></p>
+      </div>
+    </section>
+
+    <section class="phase" id="phase3">
+      <h2>Phase 3: The Procurement Engine <span>(The Math)</span></h2>
+
+      <div class="card">
+        <h3>The Automated Budgeter</h3>
+        <label>Total Budget Ceiling ($)
+          <input id="totalBudget" type="number" value="5000" min="0" />
+        </label>
+        <button id="calcBudget" class="btn">Allocate Budget</button>
+        <ul id="budgetOutput" class="result-list"></ul>
+      </div>
+
+      <div class="card">
+        <h3>The Dimension Guard</h3>
+        <div class="grid three">
+          <label>Room Length (ft)
+            <input id="roomLength" type="number" value="16" />
+          </label>
+          <label>Room Width (ft)
+            <input id="roomWidth" type="number" value="12" />
+          </label>
+          <label>Required Walkway Clearance (in)
+            <input id="clearance" type="number" value="30" />
+          </label>
+        </div>
+        <button id="calcDimensions" class="btn">Run Dimension Guard</button>
+        <p id="dimensionResult" class="result"></p>
+      </div>
+
+      <div class="card">
+        <h3>The Lead-Time Tracker</h3>
+        <div class="grid three">
+          <label>Sofa Lead Time (weeks)<input id="sofaWeeks" type="number" value="2" /></label>
+          <label>Rug Lead Time (weeks)<input id="rugWeeks" type="number" value="8" /></label>
+          <label>Lighting Lead Time (weeks)<input id="lightWeeks" type="number" value="4" /></label>
+        </div>
+        <button id="planLeadTime" class="btn">Generate Trigger Order</button>
+        <div id="leadResult" class="result"></div>
+      </div>
+    </section>
+
+    <section class="phase" id="phase4">
+      <h2>Phase 4: The Execution Stack <span>(The Sequence)</span></h2>
+      <ol class="stack">
+        <li><input type="checkbox"> <strong>Level 0:</strong> Prep (Painting, flooring, electrical)</li>
+        <li><input type="checkbox"> <strong>Level 1:</strong> The Anchors (Sofa, bed, dining table)</li>
+        <li><input type="checkbox"> <strong>Level 2:</strong> The Secondary (Side tables, shelving)</li>
+        <li><input type="checkbox"> <strong>Level 3:</strong> The Soft Layer (Rugs, curtains after Level 1 measured)</li>
+        <li><input type="checkbox"> <strong>Level 4:</strong> The Tech/Light (Lamps, smart home)</li>
+        <li><input type="checkbox"> <strong>Level 5:</strong> The Polish (Art, plants)</li>
+      </ol>
+    </section>
+
+    <section class="phase" id="phase5">
+      <h2>Phase 5: The Anti-Regret Audit <span>(Final Check)</span></h2>
+      <p>5-minute pre-purchase checklist for items over $200.</p>
+      <div class="card checklist-single">
+        <label><input type="checkbox" class="audit"> Meets the Scale Requirement from Phase 3</label>
+        <label><input type="checkbox" class="audit"> Material passes Lifestyle Filter from Phase 1</label>
+        <label><input type="checkbox" class="audit"> Hidden cost checked (assembly/delivery/customs)</label>
+        <label><input type="checkbox" class="audit"> Solves a Diagnostic Problem (not just "pretty")</label>
+        <button id="auditScoreBtn" class="btn">Run Anti-Regret Score</button>
+        <p id="auditResult" class="result"></p>
+      </div>
+    </section>
+
+    <section class="phase" id="delivery">
+      <h2>🛠️ Delivery Format</h2>
+      <p>Download a ready-to-use ZIP containing:</p>
+      <ul>
+        <li>The Master Manual (PDF)</li>
+        <li>The Command Center (CSV template for Notion/Excel)</li>
+        <li>Cheat Sheets (PNG quick-reference)</li>
+      </ul>
+      <button id="downloadZip" class="btn primary">Download Nuvic_Command_Center.zip</button>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

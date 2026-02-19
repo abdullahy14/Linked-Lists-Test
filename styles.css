@@ -1,0 +1,92 @@
+:root {
+  --bg: #0f1115;
+  --card: #191d24;
+  --muted: #8d98a8;
+  --text: #f2f5fa;
+  --accent: #5ec2ff;
+  --ok: #70dd93;
+  --fail: #ff7a7a;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.hero {
+  padding: 3rem 1.2rem 2rem;
+  border-bottom: 1px solid #2a3140;
+  background: linear-gradient(180deg, #161b22 0%, #0f1115 100%);
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+h1 { margin: .3rem 0; font-size: clamp(1.8rem, 3vw, 2.8rem); }
+h2 { margin: .2rem 0 .6rem; }
+h2 span { color: var(--muted); font-size: .9em; }
+.eyebrow { color: var(--accent); margin: 0; font-weight: 700; letter-spacing: .03em; }
+.subheadline { color: #cad2df; max-width: 65ch; }
+
+.phase {
+  margin: 1.2rem 0;
+  padding: 1rem;
+  background: #12161d;
+  border: 1px solid #252d3a;
+  border-radius: 12px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid #2b3442;
+  border-radius: 10px;
+  padding: .9rem;
+  margin: .8rem 0;
+}
+
+.grid { display: grid; gap: .8rem; }
+.grid.two { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.grid.three { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+
+label { display: grid; gap: .35rem; font-size: .95rem; }
+input, textarea, select, button {
+  font: inherit;
+  border-radius: 8px;
+  border: 1px solid #394454;
+  background: #0f141b;
+  color: var(--text);
+  padding: .55rem .65rem;
+}
+textarea { min-height: 72px; resize: vertical; }
+
+.btn { cursor: pointer; width: fit-content; margin-top: .4rem; }
+.btn.primary { background: #1d7cad; border-color: #39a0d7; }
+.btn:hover { filter: brightness(1.08); }
+
+.result { margin: .7rem 0 0; color: #b9ddff; }
+.result-list { margin: .7rem 0 0; padding-left: 1.1rem; }
+.swatches { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: .7rem; }
+.swatch {
+  width: 160px;
+  padding: .45rem;
+  border-radius: 8px;
+  border: 1px solid #394454;
+}
+.swatch div { height: 44px; border-radius: 5px; margin-bottom: .35rem; }
+
+table { width: 100%; border-collapse: collapse; margin-top: .5rem; }
+th, td { border: 1px solid #354154; padding: .5rem; text-align: left; }
+th { background: #121821; }
+.pass { color: var(--ok); font-weight: 700; }
+.fail { color: var(--fail); font-weight: 700; }
+
+.stack { padding-left: 1.2rem; }
+.stack li { margin: .45rem 0; }
+.checklist { align-items: start; }
+.checklist-single label { display: block; margin: .45rem 0; }
